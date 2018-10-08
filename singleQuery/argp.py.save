@@ -1,0 +1,77 @@
+import argparse
+import inspect
+
+from debugFnct import *
+from queryURL import *
+from dbConn import *
+from vars import *
+from arrayFunctions import *
+
+
+def createParser():
+    debugprint("Entering")
+    debugprint("initializing Argument Parser")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-v"			, "--debug_level"			, help="Sets debug level\n '0' is the default. The higher the level set, the more information will be provided")
+    parser.add_argument("-p"			, "--probe"				, help="Probing the net for the word provided")
+    parser.add_argument("-i"			, "--info"				, help="Prints out information about the data")
+		gboDebugLevel=parse_args.debug_level
+		setDebugLevel(gboDebugLevel)
+		debugprint("Setting debug level to: " + str(gboDebugLevel))
+
+    args=parser.parse_args()
+    debugprint("Argument Parser ready")
+    debugprint("Leaving")
+
+    return args
+
+def parseAction(parse_args):
+	if parse_args.debug_level:
+		gboDebugLevel=parse_args.debug_level
+		setDebugLevel(gboDebugLevel)
+		debugprint("Setting debug level to: " + str(gboDebugLevel))
+	if parse_args.probe:
+		print("Probe: " + parse_args.probe)
+
+		#Build the list of words
+		_strListWords=""
+		for strUrl in strUrls:
+			debugprint("")
+			_strUrl=strUrl+parse_args.probe
+			_istrListWords=queryURL(_strUrl)
+
+			if _strListWords=="":
+				_strListWords=_istrListWords
+			else:
+				_strListWords=  _strListWords + _istrListWords
+
+		#now we got a list, lets clean it up
+		debugprint("Word List Array Item Count: " + str(len(_strListWords)))
+		_strListWords=returnArrayUnique(_strListWords)
+		debugprint("Word List Array Item Count: " + str(len(_strListWords)))
+
+		#debugTrace(inspect)
+		#debugprintlist(_strListWords)
+		debugprint("Probing Table")
+		CreateTable(parse_args.probe)
+		debugprint("Continueing after table creation")
+		#We loop through the words and store then in the db
+		for _word in _strListWords:
+			print("Storing " + _word)
+			iNextIndx=getNextINDX("word")
+			debugprint("iNextIndx:" + str(iNextIndx))
+			iCount=getCount(_word,"word")
+			debugprint("iCount:" + str(iCount))
+			if boWordKnown(_word):
+				debugprint("Adding new word: " + _word)
+				strQ="insert into words.word(indx,word,connect,count)values('" + str(iNextIndx) + "','" + _word + "','" + parse_args.probe + "','1')"
+			else:
+				strIndx=getIndx(_word,"word")
+				strConn=getConn(_word,"word")
+				iCount=addOneToString(iCount)
+				print("Word known, we need to update: " + _word)
+				strQ="update words.word set connect='" + strConn + "," + _word + "',count='" + str(iCount) + "' where indx='" + strIndx + "'"
+
+			ExecuteQuery(strQ)
+	if parse_args.info:
+		printinfo()

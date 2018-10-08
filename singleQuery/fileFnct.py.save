@@ -1,0 +1,3 @@
+def ReadFile(strFileName):
+	file = open(strFileName,'r')
+	print(file.read())

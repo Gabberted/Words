@@ -1,0 +1,10 @@
+0 Message (1)'/home/rakaut/Desktop/projects/Sources/python/Words/English/v4.3/singleQuery/debugFnct.py: :	setDebugLevel -> Level new: 2
+1 debug (1) : :	setDebugLevel -> Leaving
+2 Message (0)'/home/rakaut/Desktop/projects/Sources/python/Words/English/v4.3/singleQuery/argp.py: :parseAction -> Setting debug level to: 2
+3 debug (1) : :	ReturnCursor -> Entering
+4 debug (2) : :		Connect -> Entering
+5 debug (2) : :		Connect -> Leaving
+6 debug (1) : :	ReturnCursor -> Leaving
+7 Message (0)'/home/rakaut/Desktop/projects/Sources/python/Words/English/v4.3/singleQuery/dbConn.py: :recursiveProbing -> Storing word: mac
+8 debug (1) : :	getAllUrlsInHTML -> Entering
+9 debug (2) : :		queryGoogleRetLinks -> Entering

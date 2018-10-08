@@ -1,0 +1,26 @@
+Rdef returnArrayUnique(strCheck1):
+	try:
+		strArr=""
+		print("Entering uniqify")
+		#print("Page 1: \n" + strCheck1)
+		#print("Page 2: \n" + strCheck2)
+		print("returnArrayUnique.strCheck1: lenght in=" + str(len(strCheck1)))
+		strRetArr=""
+		for word in strCheck1:
+			#print("returnArrayUnique.Checking " + word + " in " + strRetArr)
+			if word not in strRetArr:
+				print("returnArrayUnique.strRetArr: lenght in=" + str(len(strRetArr)))
+				if len(strRetArr) == 0:
+					strRetArr = word
+					#print("returnArrayUnique.seed:" + word)
+				else:
+					strRetArr = word + "," + strRetArr
+					#print("returnArrayUnique: " + word)
+		strRet=strRetArr.split(",")
+		print("returnArrayUnique.strCheck1: lenght out=" + str(len(strRet)))
+		print("returnArrayUnique: Returning from uniqifying")
+		return strRet
+
+	except Exception:
+		print(Exception)
+		raise
